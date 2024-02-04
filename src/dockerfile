@@ -1,8 +1,21 @@
-FROM python:3.8
+FROM openjdk:11-jre-slim as java-base
+
+FROM python:3.9-slim
+
+COPY --from=java-base /usr/local/openjdk-11 /usr/local/openjdk-11
+
+ENV JAVA_HOME /usr/local/openjdk-11
+ENV PATH $JAVA_HOME/bin:$PATH
+
+RUN java -version
+
+# set the working directory in the container
 WORKDIR /code
 
 RUN mkdir /code/batch_files
 RUN mkdir /code/processed_batches
+RUN mkdir /code/in_process
+RUN mkdir /code/processed_files
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
