@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    container_name: API
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/code
+      - ./src/batch_files:/code/batch_files
+      - ./src/processed_batches:/code/processed_batches
+    depends_on:
+      - db
+      - flyway
+
+  db:
+    image: postgres:13
+    container_name: DB
+    environment:
+      POSTGRES_DB: 'postgres'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+    ports:
+        - "5432:5432"
+    volumes:
+        - ./db/postgres_data:/var/lib/postgresql/data
+
+  flyway:
+    build: 
+      context: ./flyway
+      dockerfile: Dockerfile
+    container_name: Flyway
+    command: -url=jdbc:postgresql://db:5432/postgres -schemas=public -user=postgres -password=postgres migrate
+    volumes:
+      - ./flyway/db/migrations:/flyway/sql
+      - ./flyway/scripts/wait-for-it.sh:/flyway/wait-for-it.sh
+    depends_on:
+      - db
