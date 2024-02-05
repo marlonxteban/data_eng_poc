@@ -154,5 +154,12 @@ cython_debug/
 
 # db
 db/*
-
 !db/.keep
+
+#processed files
+src/processed_files/*
+!src/processed_files/.keep
+
+# rejected files
+src/rejected_files/*
+!src/rejected_files/.keep

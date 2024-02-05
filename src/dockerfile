@@ -12,8 +12,7 @@ RUN java -version
 # set the working directory in the container
 WORKDIR /code
 
-RUN mkdir /code/batch_files
-RUN mkdir /code/processed_batches
+RUN mkdir /code/rejected_files
 RUN mkdir /code/in_process
 RUN mkdir /code/processed_files
 
