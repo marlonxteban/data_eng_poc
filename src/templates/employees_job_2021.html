@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <title>Employees by Department, Job and quarter</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        th {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: center;
+            padding: 12px 15px;
+        }
+        td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+        tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>Department</th>
+            <th>Job</th>
+            <th>Q1</th>
+            <th>Q2</th>
+            <th>Q3</th>
+            <th>Q4</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row.department }}</td>
+            <td>{{ row.job }}</td>
+            <td>{{ row.Q1 }}</td>
+            <td>{{ row.Q2 }}</td>
+            <td>{{ row.Q3 }}</td>
+            <td>{{ row.Q4 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

@@ -1,4 +1,6 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from datetime import datetime
 import os
 import shutil
@@ -6,6 +8,8 @@ import shutil
 from PySparkProcessor import PySparkProcessor
 
 app = FastAPI()
+
+templates = Jinja2Templates(directory="templates")
 
 os.makedirs('rejected_files', exist_ok=True)
 os.makedirs('in_process', exist_ok=True)
@@ -55,3 +59,18 @@ def process_file(file_type: str, file_path: str, filename: str, blocks: int):
         shutil.move(file_path, dest_file_path)
 
     return {"message": f"{message}"}
+
+
+@app.get("/employees_job_2021", response_class=HTMLResponse)
+async def employees_job_2021(request: Request):
+    data = None
+    processor = PySparkProcessor()
+    data = processor.get_employees_job_2021()
+    return templates.TemplateResponse("employees_job_2021.html", {"request": request, "data": data})
+
+@app.get("/hired_by_department_2021", response_class=HTMLResponse)
+async def hired_by_department_2021(request: Request):
+    data = None
+    processor = PySparkProcessor()
+    data = processor.get_hired_by_department_2021()
+    return templates.TemplateResponse("hired_by_department_2021.html", {"request": request, "data": data})
